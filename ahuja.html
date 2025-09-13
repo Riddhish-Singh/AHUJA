@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AHUJASONS - A Legacy of Royal Shawls</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+	
+        /* --- Base Styles & Variables --- */
+        :root {
+            --primary-font: 'Cormorant Garamond', serif;
+            --secondary-font: 'Jost', sans-serif;
+            --black: #0a0a0a; 
+            --off-black: #87252A; /* A softer black for a modern feel */
+            --white: #fdfdfd;
+            --beige: #B98A3C;
+            --gold: #87252A;
+        }
+		.icon-buttons {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.icon-buttons a {
+  color: var(--black);
+  font-size: 20px;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.icon-buttons a:hover {
+  color: var(--gold);
+  transform: scale(1.2);
+}
+
+
+        body {
+            font-family: var(--secondary-font);
+            color: var(--black);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: var(--white);
+            overflow: hidden; /* Hide scrollbars during animation */
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="6" fill="%23B98A3C" stroke="%23FFFFFF" stroke-width="1.5"/></svg>'), auto;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--primary-font);
+            font-weight: normal;
+        }
+
+        /* --- START: Cinematic Entry Animation Styles --- */
+        #animation-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 10000;
+            background-color: var(--black);
+            pointer-events: none;
+            opacity: 1;
+            transition: opacity 2s ease-out;
+        }
+
+        /* NEW: Modern Geometric Reveal Styling */
+        .reveal-panel {
+            position: absolute;
+            top: 0;
+            width: 50.5vw; /* Overlap to prevent gaps */
+            height: 100vh;
+            z-index: 30;
+            background-color: var(--off-black);
+        }
+
+        .reveal-panel.left {
+            left: 0;
+            /* Creates a slanted edge. The slant is 15% of the viewport height. */
+            clip-path: polygon(0 0, 100% 0, calc(100% - 15vh) 100%, 0 100%);
+            /* A sharp golden line on the opening edge */
+            border-right: 2px solid var(--gold);
+        }
+
+        .reveal-panel.right {
+            right: 0;
+            /* Creates a matching slanted edge on the opposite side. */
+            clip-path: polygon(15vh 0, 100% 0, 100% 100%, 0 100%);
+            border-left: 2px solid var(--gold);
+        }
+
+        .reveal-panel.open {
+            animation: modernOpen 2.5s forwards cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        @keyframes modernOpen {
+            0% {
+                width: 50.5vw;
+            }
+            100% {
+                width: 0vw;
+            }
+        }
+        
+        /* END: Modern Geometric Reveal Styling */
+
+        #logo-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 20;
+            opacity: 0;
+        }
+        
+        #logo-container.visible {
+            animation: revealLogo 4s forwards;
+            animation-delay: 1s;
+        }
+
+        #logo-container img {
+            width: 300px;
+        }
+
+@keyframes revealLogo {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+    filter: none;
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.1);
+    filter: none;
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    filter: none;
+  }
+}
+
+
+        .motif {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('royal-pattern.png'); /* REPLACE WITH YOUR ROYAL PATTERN */
+            background-repeat: repeat;
+            opacity: 0;
+            z-index: 10;
+        }
+
+        .motif.visible {
+            animation: fadeInMotif 5s forwards;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes fadeInMotif {
+            from { opacity: 0; }
+            to { opacity: 0.08; } /* Keep it very subtle */
+        }
+
+        #particle-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 15;
+            overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background-color: var(--gold);
+            border-radius: 50%;
+            opacity: 0;
+            animation: drift 10s infinite linear;
+        }
+
+        @keyframes drift {
+            from {
+                transform: translateY(0px) translateX(0px);
+                opacity: 0.7;
+            }
+            to {
+                transform: translateY(-1000px) translateX(20px);
+                opacity: 0;
+            }
+        }
+        /* --- END: Cinematic Entry Animation Styles --- */
+
+        /* --- Header & Navigation --- */
+        .main-header, main, .main-footer {
+            opacity: 0; /* Hide main content initially */
+            transition: opacity 1.5s ease-in;
+        }
+        .main-header.visible, main.visible, .main-footer.visible {
+            opacity: 1;
+        }
+        
+.main-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 20000; /* higher than animation container */
+  background-color: var(--white);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* header content layout */
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  justify-content: space-between; /* logo left, nav center, controls right */
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 16px 24px;
+}
+
+/* nav styles (make sure nav items display inline) */
+.main-nav ul {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.main-nav li {
+  position: relative;
+}
+
+/* dropdown menu should not be clipped */
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  background: var(--white);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  padding: 12px 8px;
+  min-width: 220px;
+  border-radius: 6px;
+  z-index: 21000;
+}
+
+.dropdown:hover .dropdown-menu,
+.dropdown:focus-within .dropdown-menu {
+  display: block;
+}
+
+/* container for CTAs and icons on the right */
+.right-controls {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-left: 12px;
+}
+
+/* icon buttons */
+.icon-buttons {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.icon-buttons a {
+  color: var(--black);
+  font-size: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: transform 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.icon-buttons a:hover {
+  color: var(--gold);
+  transform: translateY(-2px);
+  background: rgba(185,138,60,0.06);
+}
+
+/* responsive adjustments */
+@media (max-width: 1024px) {
+  .main-nav { display: none; } /* mobile: hide nav and show hamburger elsewhere */
+  .header-content { justify-content: space-between; }
+}
+
+@media (max-width: 480px) {
+  .icon-buttons a { font-size: 16px; padding: 6px 8px; }
+  .logo img { height: 64px; } /* reduce logo on very small screens */
+}
+0 auto;
+        }
+        .logo img {
+            height: 90px;
+            width: auto;
+        }
+        .main-nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+        .main-nav li {
+            margin: 0 20px;
+            position: relative;
+        }
+        .main-nav a {
+            text-decoration: none;
+            color: var(--black);
+            font-weight: 400;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+        .main-nav a:hover {
+            color: var(--gold);
+        }
+        .main-nav li a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 1px;
+            background-color: var(--gold);
+            transition: width 0.3s ease-in-out;
+        }
+        .main-nav li a:hover::after {
+            width: 100%;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--white);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px 0;
+            min-width: 200px;
+            list-style: none;
+            margin-top: 5px;
+        }
+        .dropdown-menu li {
+            margin: 0;
+            padding: 0 15px;
+        }
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 0;
+            font-size: 14px;
+        }
+        .cta-buttons a {
+            font-size: 14px;
+            padding: 10px 20px;
+            text-decoration: none;
+            border: 1px solid var(--black);
+            margin-left: 10px;
+            transition: all 0.3s ease;
+        }
+        .cta-btn.primary {
+            background-color: var(--black);
+            color: var(--white);
+        }
+        .cta-btn.primary:hover {
+            background-color: var(--gold);
+            border-color: var(--gold);
+            color: var(--white);
+        }
+        .cta-btn.secondary {
+            background-color: transparent;
+            color: var(--black);
+        }
+        .cta-btn.secondary:hover {
+            background-color: var(--black);
+            color: var(--white);
+        }
+        .hamburger-menu {
+            display: none;
+            cursor: pointer;
+        }
+        .bar {
+            width: 25px;
+            height: 3px;
+            background-color: var(--black);
+            margin: 5px 0;
+            transition: 0.4s;
+        }
+        .main-nav.active {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--white);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding-bottom: 20px;
+        }
+        .main-nav.active ul {
+            flex-direction: column;
+            width: 100%;
+            align-items: flex-start;
+        }
+        .main-nav.active li {
+            margin: 10px 20px;
+            width: 100%;
+        }
+        .main-nav.active .dropdown-menu {
+            position: static;
+            box-shadow: none;
+            padding-left: 20px;
+        }
+        .hamburger-menu.active .bar:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .hamburger-menu.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger-menu.active .bar:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+        .cta-buttons.active {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .cta-buttons.active .cta-btn {
+            width: 80%;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        /* --- Hero Banner Section --- */
+        .hero-banner {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        /* --- Dynamic Background Slideshow --- */
+        #slideshow-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 2.5s ease-in-out, transform 10s ease-out; /* Smooth fade and slow parallax */
+            transform: scale(1.05); /* Initial scale for parallax effect */
+        }
+
+        .slide.current {
+            opacity: 1;
+            transform: scale(1); /* Parallax motion */
+        }
+        
+        .hero-content {
+            text-align: center;
+            color: var(--white);
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* --- Hero Text Animation --- */
+        .hero-text {
+            font-family: var(--primary-font);
+            font-size: 4rem;
+            font-weight: normal;
+            text-transform: uppercase;
+            position: absolute;
+            top: 50%;
+            left: 60%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            transition: opacity 2s ease;
+        }
+        
+        .hero-text:not(.active) {
+            opacity: 0;
+        }
+        
+        /* Golden stroke/calligraphy effect */
+        .hero-text.golden-stroke {
+            background: linear-gradient(90deg, var(--gold) 0%, var(--gold) 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-repeat: no-repeat;
+            background-size: 0% 100%;
+            transition: background-size 2s ease-in-out;
+        }
+
+        .hero-text.golden-stroke.active {
+            opacity: 1;
+            background-size: 100% 100%;
+        }
+
+        /* --- About Us Section --- */
+        .about-us-section {
+            padding: 100px 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+            background-color: var(--white);
+        }
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 80px;
+        }
+        .about-text-container {
+            flex: 1;
+            text-align: left;
+        }
+        .section-title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            font-family: var(--primary-font);
+        }
+        .brand-story {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 40px;
+        }
+        .founder-quote {
+            font-family: var(--primary-font);
+            font-size: 2rem;
+            line-height: 1.4;
+            font-style: italic;
+            border-left: 3px solid var(--gold);
+            padding-left: 20px;
+            margin: 0;
+        }
+        .quote-author {
+            display: block;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-style: normal;
+            color: var(--gold);
+        }
+        .about-image {
+            flex: 1;
+        }
+.about-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 15px; /* Add this line for a subtle curve */
+}
+        
+        /* --- Parallax Gallery --- */
+        .parallax-gallery {
+            position: relative;
+            height: 150vh;
+            overflow: hidden;
+            background-color: var(--black);
+            perspective: 1px;
+            transform-style: preserve-3d;
+        }
+        .parallax-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 150%;
+            background-size: cover;
+            background-position: center;
+            will-change: transform;
+            transform-origin: top left;
+        }
+        .parallax-layer.back {
+            background-image: url('');
+            z-index: -1;
+            transform: translateZ(-2px) scale(3);
+        }
+        .parallax-layer.middle {
+            background-image: url('https://images.pexels.com/photos/724128/pexels-photo-724128.jpeg');
+            z-index: -2;
+            transform: translateZ(-1px) scale(2);
+        }
+        .parallax-layer.front {
+            background-image: url('data:image/jpeg;base64,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');
+            z-index: -3;
+            transform: translateZ(0px) scale(1);
+        }
+        .parallax-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            text-align: center;
+            color: var(--white);
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+            width: 80%;
+        }
+        .parallax-content h2 {
+            font-size: 3rem;
+        }
+        .parallax-content p {
+            font-size: 1.5rem;
+        }
+        
+        /* --- Interactive 3D Product Gallery --- */
+        .product-gallery-section {
+            padding: 100px 50px;
+            text-align: center;
+            background-color: var(--white);
+        }
+        .product-gallery-title {
+            font-size: 3rem;
+            margin-bottom: 50px;
+            text-transform: uppercase;
+            font-family: var(--primary-font);
+        }
+        .product-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px;
+            perspective: 1000px;
+        }
+        .product-card {
+            width: 300px;
+            height: 400px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s ease-in-out;
+        }
+        .product-card:hover {
+            transform: rotateY(180deg);
+        }
+        .product-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .product-front {
+            background-color: var(--beige);
+        }
+        .product-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-back {
+            background-color: var(--gold);
+            transform: rotateY(180deg);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--white);
+            text-align: center;
+        }
+        .product-back h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--white);
+        }
+        .product-back p {
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        .product-back a {
+            padding: 10px 20px;
+            background-color: var(--white);
+            color: var(--black);
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .product-back a:hover {
+            background-color: var(--black);
+            color: var(--gold);
+        }
+
+        /* --- Animated Mission Statement Section --- */
+        .mission-section {
+            padding: 100px 50px;
+            background-color: var(--beige);
+            text-align: center;
+        }
+        .mission-container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .mission-line {
+            width: 100px;
+            height: 2px;
+            background-color: var(--gold);
+            margin: 0 auto 30px;
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 1s ease-out;
+        }
+        .mission-line.is-visible {
+            transform: scaleX(1);
+        }
+        .mission-statement {
+            font-size: 3rem;
+            line-height: 1.2;
+            font-family: var(--primary-font);
+            text-transform: uppercase;
+            color: var(--black);
+            padding: 0 20px;
+        }
+
+        /* --- Scroll Animations (Initial State) --- */
+        .fade-in-on-scroll,
+        .slide-up-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+        .fade-in-on-scroll.is-visible,
+        .slide-up-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* --- Footer Styles --- */
+        .main-footer {
+            background-color: #87252A;
+            color: var(--white);
+            padding: 80px 50px 30px;
+            font-family: var(--secondary-font);
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+        }
+        .footer-logo img {
+            filter: brightness(0) invert(1);
+            height: 100px;
+            margin-bottom: 10px;
+        }
+        .footer-column h4 {
+            font-family: var(--primary-font);
+            font-size: 20px;
+            font-weight: normal;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+			align: center-align;
+        }
+        .footer-column p {
+            font-size: 14px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+        }
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        .footer-column a {
+            text-decoration: none;
+            color: var(--white);
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+        .footer-column a:hover {
+            color: var(--gold);
+        }
+        .newsletter-form {
+            margin-top: 20px;
+            display: flex;
+        }
+        .newsletter-form input {
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            background-color: transparent;
+            padding: 12px;
+            color: var(--white);
+            font-size: 14px;
+            outline: none;
+            flex-grow: 1;
+        }
+        .newsletter-form input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        .newsletter-form button {
+            background-color: var(--gold);
+            color: var(--black);
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 14px;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease;
+        }
+        .newsletter-form button:hover {
+            background-color: var(--beige);
+        }
+        .social-links a {
+            margin-right: 15px;
+            font-size: 14px;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 40px auto 0;
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .footer-bottom p {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            margin: 5px 0;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 1024px) {
+            .main-header {
+                padding: 20px;
+            }
+            .header-content {
+                flex-wrap: wrap;
+            }
+            .main-nav, .cta-buttons {
+                display: none;
+            }
+            .hamburger-menu {
+                display: block;
+            }
+            .logo {
+                flex-grow: 1;
+            }
+            .about-content {
+                flex-direction: column;
+                gap: 40px;
+            }
+        }
+        @media (max-width: 768px) {
+            .hero-text { font-size: 2.5rem; }
+            .mission-statement { font-size: 2rem; }
+            .footer-content { flex-direction: column; }
+        }
+		
+		/* --- Image Collage Section --- */
+        .image-collage-section {
+            padding: 100px 50px;
+            background-color: #87252A;
+            text-align: center;
+			text-color: #ffffff;
+        }
+
+        .collage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-gap: 15px;
+            max-width: 1400px;
+            margin: 0 auto 50px;
+        }
+
+        .collage-item {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* This is the key property */
+            border-radius: 5px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .collage-item:hover {
+            transform: scale(1.03) rotate(-1deg);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        /* Make some images span multiple columns or rows for a more dynamic feel */
+        .collage-item.large-image {
+            grid-column: span 2;
+            grid-row: span 2;
+            height: auto;
+        }
+		/* === Panel sparkle (beige) === */
+/* make sure panels allow absolute children */
+.reveal-panel { position: absolute; overflow: visible; }
+
+/* single sparkle dot */
+.reveal-panel .panel-sparkle {
+  position: absolute;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--beige);
+  box-shadow:
+    0 0 6px var(--beige),
+    0 0 12px rgba(185,138,60,0.28),
+    0 0 24px rgba(185,138,60,0.12);
+  opacity: 0;
+  transform: scale(0.35);
+  pointer-events: none;
+  mix-blend-mode: screen; /* makes sparkle look luminous over dark fabric */
+  filter: blur(0.2px);
+  animation: sparklePop 1.1s cubic-bezier(.2,.9,.2,1) forwards;
+}
+
+/* slight elongated streak option (randomly used by JS) */
+.reveal-panel .panel-sparkle.streak {
+  border-radius: 2px;
+  transform-origin: center;
+}
+
+/* the pop/fade animation */
+@keyframes sparklePop {
+  0%   { opacity: 0; transform: scale(0.35) translateY(6px); }
+  25%  { opacity: 1; transform: scale(1.15) translateY(-2px); }
+  60%  { opacity: 0.8; transform: scale(0.8) translateY(-8px); }
+  100% { opacity: 0; transform: scale(0.6) translateY(-14px); }
+}
+
+/* a very subtle shimmering sheen along the edge (optional) */
+.reveal-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(185,138,60,0.0) 0%, rgba(185,138,60,0.04) 20%, rgba(185,138,60,0.0) 40%);
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity .6s ease;
+}
+.reveal-panel.sparkle-edge::before { opacity: 1; }
+
+
+
+    </style>
+<style>
+  .as-seen-on {
+    padding: 80px 50px;
+    background-color: var(--white);
+    text-align: center;
+  }
+  .as-seen-on-title {
+    font-family: var(--primary-font);
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    color: var(--black);
+  }
+  .logo-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px;
+  }
+  .logo-row img {
+    height: 50px;
+    max-width: 150px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+  }
+  .logo-row img:hover {
+    transform: scale(1.05);
+  }
+  @media (max-width: 768px) {
+    .logo-row img {
+      height: 40px;
+      max-width: 120px;
+    }
+  }
+  /* QUICK: force no shadow on the animated logo */
+#logo-container img {
+  filter: none !important;
+  -webkit-filter: none !important;
+  box-shadow: none !important;
+}
+
+</style>
+</head>
+<body>
+
+    <div id="animation-container">
+        <div id="particle-container"></div>
+        <div class="motif motif-left"></div>
+        <div class="motif motif-right"></div>
+        <div class="reveal-panel left"></div>
+        <div class="reveal-panel right"></div>
+        <div id="logo-container">
+            <img src="https://www.ahujasons.com/cdn/shop/files/Group_85145.svg?v=1750926316&width=200" alt="Ahuja Sons Logo">
+        </div>
+    </div>
+    
+<header class="main-header">
+  <div class="header-content">
+    <div class="logo">
+      <a href="/">
+        <img src="https://www.ahujasons.com/cdn/shop/files/Group_85145.svg?v=1750926316&width=200" alt="Ahuja Sons Logo">
+      </a>
+    </div>
+
+    <nav class="main-nav" aria-label="Main Navigation">
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About Us</a></li>
+        <li class="dropdown" id="collections-dropdown">
+          <a href="#">Collections</a>
+          <ul class="dropdown-menu">
+            <li><a href="https://www.ahujasons.com/collections/men-pashmina-shawl">Men’s Shawls</a></li>
+            <li><a href="https://www.ahujasons.com/collections/women-pure-pashmina-shawls">Women’s Shawls</a></li>
+            <li><a href="https://www.ahujasons.com/collections/woollen-shawls">Stoles</a></li>
+            <li><a href="https://www.ahujasons.com/collections/unstiched-suits">Unstiched Suits</a></li>
+            <li><a href="https://www.ahujasons.com/collections/handloom">Bespoke Pashmina</a></li>
+          </ul>
+        </li>
+        <li><a href="#">Craftsmanship</a></li>
+        <li><a href="#">Bespoke</a></li>
+        <li><a href="https://www.ahujasons.com/blogs/blog">Blog</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="right-controls">
+      <div class="cta-buttons">
+        <!-- keep your CTA buttons here if you have them -->
+      </div>
+
+      <div class="icon-buttons" role="group" aria-label="Header actions">
+        <a href="https://www.ahujasons.com/search" aria-label="Search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </a>
+        <a href="https://www.ahujasons.com/account" aria-label="Account">
+          <i class="fa-solid fa-user"></i>
+        </a>
+        <a href="https://www.ahujasons.com/cart" aria-label="Cart">
+          <i class="fa-solid fa-cart-shopping"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+    <main>
+        <section class="hero-banner">
+            <div id="video-container">
+                <video id="hero-video" autoplay muted loop playsinline style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
+                    <source src="ASV8.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </section>
+
+        <section class="about-us-section fade-in-on-scroll">
+            <div class="about-content">
+                <div class="about-text-container">
+                    <h2 class="section-title fade-in-on-scroll">Our Legacy</h2>
+                    <p class="brand-story slide-up-on-scroll">
+                        Crafting elegance since <span class="counter" data-target="1950">0</span>, Ahuja Sons has been at the forefront of preserving the ancient art of Pashmina weaving. Our journey began with a single vision: to share the unparalleled luxury of hand-woven shawls with the world. Every piece is a testament to generations of artisanal skill, handed down through time, ensuring a legacy of precision, passion, and heritage in every thread. We believe in creating timeless pieces that are more than just accessories—they are stories woven into a fabric of dreams.
+                    </p>
+                    <blockquote class="founder-quote slide-up-on-scroll">
+                        "Every creation is an extension of our soul. It's about honoring tradition while crafting the future of luxury."
+                    </blockquote>
+                </div>
+            </div>
+        </section>
+
+        <section class="image-collage-section fade-in-on-scroll">
+                <div class="about-image fade-in-on-scroll">
+                    <img src="Ahuja.png" alt="Ahujasons Shawls">
+                </div>
+            <div class="collage-text fade-in-on-scroll">
+                <h3>Woven Stories: A Gallery of Heritage</h3>
+                <p>Each thread tells a tale of luxury and tradition, captured in timeless beauty.</p>
+            </div>
+        </section>
+
+        <section class="product-gallery-section fade-in-on-scroll">
+            <h2 class="product-gallery-title">Featured Collections</h2>
+            <div class="product-grid">
+
+                <div class="product-card">
+                    <div class="product-face product-front">
+                        <img src="https://www.ahujasons.com/cdn/shop/files/AS01039404-2_68d77874-56b8-4b9e-812b-a44e1e41b30c.webp?v=1755767891&width=600" alt="Pashmina Shawl 1">
+                    </div>
+                    <div class="product-face product-back">
+                        <h3>Elegant Handloom Pashmina Shawl Jama Embroidery in Grey</h3>
+                        <p>A timeless piece, hand-embroidered with traditional motifs passed down through generations.</p>
+                        <a href="https://www.ahujasons.com/collections/luxurious/products/elegant-handloom-pashmina-shawl-jama-embroidery-in-grey-as01039404?variant=41842341249086">View Details</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-face product-front">
+                        <img src="https://www.ahujasons.com/cdn/shop/files/AS01103336-2_b0dc031b-5172-450d-b054-ba374d6889d8.webp?v=1755767892&width=600" alt="Pashmina Shawl 1">
+                    </div>
+                    <div class="product-face product-back">
+                        <h3>Heritage Handloom Pashmina Kalamkari Shawl in Multi for Men</h3>
+                        <p>A timeless piece, hand-embroidered with traditional motifs passed down through generations.</p>
+                        <a href="https://www.ahujasons.com/collections/luxurious/products/heritage-handloom-pashmina-kalamkari-shawl-in-multi-for-men-as01103336?variant=41842341216318">View Details</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-face product-front">
+                        <img src="https://www.ahujasons.com/cdn/shop/files/AS01261310-1_25fcacc1-692d-41d9-a000-074e42ad1f9d.webp?v=1752241816&width=600" alt="Pashmina Shawl 2">
+                    </div>
+                    <div class="product-face product-back">
+                        <h3>Casual Scarf with Dobby Pattern in Multi</h3>
+                        <p>Crafted from the finest cashmere, this stole provides unmatched warmth and a luxurious feel.</p>
+                        <a href="https://www.ahujasons.com/collections/stole-and-scarves/products/casual-scarf-with-dobby-pattern-in-multi-as01261310?variant=41895343882302">View Details</a>
+                    </div>
+                </div>
+
+                
+            </div>
+        </section>
+		        <section class="image-collage-section fade-in-on-scroll">
+<div class="about-image fade-in-on-scroll">
+  <a href="https://www.ahujasons.com/pages/gifting">
+    <img src="Gift.png" alt="Ahujasons Gift">
+  </a>
+</div>
+
+            <div class="collage-text fade-in-on-scroll">
+                <h3>Gifts That Speak of Elegance</h3>
+                <p>Wedding Gifting |
+Festive Hampers |
+Corporate Orders Return Gift On Special Occasion</p>
+            </div>
+        </section>
+        
+        <section class="mission-section fade-in-on-scroll">
+            <div class="mission-container">
+                <div class="mission-line fade-in-on-scroll"></div>
+                <h2 class="mission-statement slide-up-on-scroll">
+                    Every Ahuja Sons Pashmina is handwoven with precision, passion, and heritage.
+                </h2>
+            </div>
+        </section>
+		<!-- AS SEEN ON SECTION -->
+<section class="as-seen-on">
+  <h2 class="as-seen-on-title">As Seen On</h2>
+ <marquee> <div class="logo-row">
+    <img src="https://www.ahujasons.com/cdn/shop/files/Image_305.jpg?v=1750919834&width=100" alt="Travel + Leisure">
+    <img src="https://www.ahujasons.com/cdn/shop/files/Image_306_2x_19ec82a4-e5a4-40bc-803d-659205432a93.jpg?v=1753961676&width=200" alt="Robb Report">
+    <img src="https://www.ahujasons.com/cdn/shop/files/MaskGroup12_2x-a0277a08-c697-476e-a4f5-724b1e4049bc_2x_df6bafd9-80cb-41e8-bc2a-18946433945d.jpg?v=1753961653&width=200" alt="Vogue">
+    <img src="https://www.ahujasons.com/cdn/shop/files/Image_307.jpg?v=1750920601&width=100" alt="GQ">
+    <img src="https://www.ahujasons.com/cdn/shop/files/Image_308.jpg?v=1750920622&width=100" alt="LBB">
+    <img src="https://www.ahujasons.com/cdn/shop/files/Businessworld__logo_2x_9c2f314e-b8cd-490b-87fb-088ed970bcca.jpg?v=1750920640&width=200" alt="BW Businessworld">
+    <img src="https://www.ahujasons.com/cdn/shop/files/Image_309_2x_43a9381f-5ee9-4aeb-9599-68278b2d114b.jpg?v=1753961523&width=200" alt="Fashion United">
+  </div> </marquee>
+</section>
+
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-column footer-logo-col">
+                <div class="footer-logo">
+                    <img src="https://www.ahujasons.com/cdn/shop/files/Group_85145.svg?v=1750926316&width=200" alt="Ahuja Sons Logo">
+                </div>
+            <div class="footer-column">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#">Facebook</a>
+                    <a href="#">Instagram</a>
+                    <a href="#">Pinterest</a>
+                </div>
+            </div>
+            </div>
+            <div class="footer-column">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="https://www.ahujasons.com/pages/the-brand">The Brand</a></li>
+                    <li><a href="https://www.ahujasons.com/pages/b2b">Ahujasons B2B</a></li>
+                    <li><a href="https://www.ahujasons.com/pages/terms-conditions">T&C</a></li>
+                    <li><a href="https://www.ahujasons.com/pages/faq">FAQs</a></li>
+                    <li><a href="https://www.ahujasons.com/pages/privacy-policy">Privacy Policy</a></li>
+                    <li><a href="https://www.ahujasons.com/blogs/blog">Blogs</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Contact & Info</h4>
+                <ul>
+                    <li>Address: 123 Luxury Lane, Kashmir, India</li>
+                    <li>Email: info@ahujasons.com</li>
+                    <li>Phone: ✆ +91-9205148883 ✆ +91-9205138883</li>
+                    <li><a href="https://www.google.com/maps/search/ahujasons+shawl+wale+locations/@28.588466,74.3878676,7z?entry=ttu&g_ep=EgoyMDI1MDkxMC4wIKXMDSoASAFQAw%3D%3D">Store Locator</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 by AHUJASONS SHAWL WALE PVT. LTD</p>
+            <p>
+                <a href="#">Privacy Policy</a> | 
+                <a href="#">Terms of Use</a>
+            </p>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // --- Director for the Cinematic Entry Animation ---
+            function runCinematicIntro() {
+                const animationContainer = document.getElementById('animation-container');
+                // UPDATED: Select the new reveal panels
+                const leftPanel = document.querySelector('.reveal-panel.left');
+                const rightPanel = document.querySelector('.reveal-panel.right');
+                const logoContainer = document.getElementById('logo-container');
+                const motifs = document.querySelectorAll('.motif');
+                const particleContainer = document.getElementById('particle-container');
+                
+                // Create Golden Dust Particles
+                const particleCount = 50;
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    particle.style.left = `${Math.random() * 100}%`;
+                    particle.style.top = `${Math.random() * 100}%`;
+                    particle.style.animationDelay = `${Math.random() * 10}s`;
+                    particle.style.animationDuration = `${5 + Math.random() * 10}s`;
+                    particleContainer.appendChild(particle);
+                }
+
+                // Start the Animation Sequence
+                motifs.forEach(motif => motif.classList.add('visible'));
+
+                // Logo reveal after 1 second
+                setTimeout(() => {
+                    logoContainer.classList.add('visible');
+                }, 1000);
+
+// helper: spawn sparkles attached to a panel
+function spawnPanelSparkles(panel, count = 28) {
+  panel.classList.add('sparkle-edge'); // sheen on the panel edge
+  for (let i = 0; i < count; i++) {
+    const s = document.createElement('span');
+    s.className = 'panel-sparkle';
+    // sometimes make a streak for variety
+    if (Math.random() < 0.18) s.classList.add('streak');
+
+    // randomize position close to the opening edge (tweak offsets if you want)
+    const x = 6 + Math.random() * 88; // keep a margin so it looks on the fabric
+    const y = 6 + Math.random() * 88;
+    s.style.left = x + '%';
+    s.style.top = y + '%';
+
+    // size and rotation variety
+    const size = (3 + Math.random() * 8);
+    s.style.width = size + 'px';
+    s.style.height = size + 'px';
+    if (s.classList.contains('streak')) {
+      s.style.width = Math.max(6, size * 1.8) + 'px';
+      s.style.height = Math.max(2, size * 0.45) + 'px';
+      s.style.transform = 'rotate(' + (Math.random() * 60 - 30) + 'deg)';
+    }
+
+    // random animation delay so they pop over the timeline
+    s.style.animationDelay = (Math.random() * 0.45) + 's';
+
+    panel.appendChild(s);
+    // cleanup after animation finishes
+    setTimeout(() => {
+      if (s && s.parentNode) s.parentNode.removeChild(s);
+    }, 2200);
+  }
+  // remove sheen class after a while
+  setTimeout(() => panel.classList.remove('sparkle-edge'), 2000);
+}
+
+// spawn a short burst of sparkles, then open the panels
+setTimeout(() => {
+  spawnPanelSparkles(leftPanel, 28);
+  spawnPanelSparkles(rightPanel, 28);
+  // give the sparkles a moment, then open the curtains
+  setTimeout(() => {
+    leftPanel.classList.add('open');
+    rightPanel.classList.add('open');
+  }, 280);
+}, 2500);
+
+
+                // After animation, fade out intro and show page content
+                setTimeout(() => {
+                    animationContainer.style.opacity = '0';
+                    setTimeout(() => { 
+                        animationContainer.style.display = 'none'; 
+                        // Trigger main page functions
+                        showMainContent();
+                        startSlideshow(); 
+                    }, 2000);
+                    
+                }, 5500); // Adjusted total time for the new animation
+            }
+
+            // Function to reveal the main page content
+            function showMainContent() {
+                const mainHeader = document.querySelector('.main-header');
+                const mainContent = document.querySelector('main');
+                const mainFooter = document.querySelector('.main-footer');
+                mainHeader.classList.add('visible');
+                mainContent.classList.add('visible');
+                mainFooter.classList.add('visible');
+                document.body.style.overflow = 'auto'; // Re-enable scrolling
+            }
+
+            // --- Dynamic Background Slideshow & Hero Text Controller ---
+            function startSlideshow() {
+                const slides = document.querySelectorAll('#slideshow-container .slide');
+                const heroTexts = document.querySelectorAll('.hero-text');
+                let currentSlide = 0;
+                let currentText = 0;
+                
+                // Function to change the active slide
+                function changeSlide() {
+                    slides.forEach(slide => slide.classList.remove('current'));
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    slides[currentSlide].classList.add('current');
+                }
+
+                // Function to change the active hero text
+                function changeHeroText() {
+                    heroTexts.forEach(text => text.classList.remove('active'));
+                    currentText = (currentText + 1) % heroTexts.length;
+                    heroTexts[currentText].classList.add('active');
+                }
+
+                // Start the sequence after a delay
+                setTimeout(() => {
+                    changeHeroText(); // Show the first text
+                    
+                    // Cycle the text every 5 seconds
+                    setInterval(changeHeroText, 5000);
+                    
+                    // Cycle the background every 8 seconds
+                    setInterval(changeSlide, 8000);
+                }, 2000); // 2 seconds after the main content is visible
+            }
+            
+            // Mobile navigation and dropdown menu
+            const dropdown = document.querySelector('.dropdown');
+            const dropdownMenu = document.querySelector('.dropdown-menu');
+            const hamburgerMenu = document.querySelector('.hamburger-menu');
+            const mainNav = document.querySelector('.main-nav');
+            const ctaButtons = document.querySelector('.cta-buttons');
+            
+            if (dropdown) {
+                dropdown.addEventListener('click', function(event) {
+                    event.preventDefault(); 
+                    dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+                });
+            }
+            
+            window.addEventListener('click', function(event) {
+                if (dropdown && !dropdown.contains(event.target)) {
+                    dropdownMenu.style.display = 'none';
+                }
+            });
+            
+            if (hamburgerMenu) {
+                hamburgerMenu.addEventListener('click', function() {
+                    hamburgerMenu.classList.toggle('active');
+                    mainNav.classList.toggle('active');
+                    ctaButtons.classList.toggle('active');
+                });
+            }
+
+            // Scroll-based animations
+            function handleScrollAnimations() {
+                const observer = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { rootMargin: '0px', threshold: 0.2 });
+
+                const animatedElements = document.querySelectorAll('.fade-in-on-scroll, .slide-up-on-scroll');
+                animatedElements.forEach(el => observer.observe(el));
+            }
+
+            // Number counter animation
+            function animateNumberCounters() {
+                const counters = document.querySelectorAll('.counter');
+                const observer = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const counter = entry.target;
+                            const target = +counter.getAttribute('data-target');
+                            const duration = 2000;
+                            const stepTime = 1;
+                            let current = 0;
+                            const increment = Math.ceil(target / (duration / stepTime));
+
+                            const timer = setInterval(() => {
+                                current += increment;
+                                if (current >= target) {
+                                    counter.innerText = target;
+                                    clearInterval(timer);
+                                } else {
+                                    counter.innerText = current;
+                                }
+                            }, stepTime);
+                            observer.unobserve(counter);
+                        }
+                    });
+                }, { rootMargin: '0px', threshold: 0.8 });
+
+                counters.forEach(counter => observer.observe(counter));
+            }
+
+            // Parallax scrolling
+            function handleParallax() {
+                const parallaxLayers = document.querySelectorAll('.parallax-layer');
+                window.addEventListener('scroll', () => {
+                    const scrollPosition = window.pageYOffset;
+                    parallaxLayers.forEach(layer => {
+                        const speed = layer.getAttribute('data-speed');
+                        const yPos = -(scrollPosition * speed);
+                        const originalTransform = layer.style.transform.replace(/translateY\([^)]+\)/, '');
+                        layer.style.transform = `translateY(${yPos}px) ${originalTransform}`;
+                    });
+                });
+            }
+            
+            // --- Initialize Everything ---
+            runCinematicIntro();
+            handleScrollAnimations();
+            animateNumberCounters();
+            handleParallax();
+        });
+    </script>
+	<script>
+(function ensureWhiteOnMaroon() {
+  const targetRGB = 'rgb(135, 37, 42)'; // #87252A -> rgb(135, 37, 42)
+  const className = 'text-white-over-maroon';
+
+  // helper to add class
+  function mark(el) {
+    if (!el.classList.contains(className)) {
+      el.classList.add(className);
+      // Inline style fallback if you want stronger guarantee:
+      // el.style.color = '#ffffff';
+    }
+  }
+
+  // scan all elements and mark those with exact bg color match
+  function scanAndMark() {
+    const all = document.querySelectorAll('body *');
+    all.forEach(el => {
+      try {
+        const cs = getComputedStyle(el);
+        const bg = cs.backgroundColor;
+        // backgroundColor can be 'rgba(...)' or 'rgb(...)' or 'transparent'
+        if (!bg || bg === 'transparent') return;
+        // check exact rgb match OR start-with rgb(...) to allow rgba
+        if (bg === targetRGB || bg.startsWith(targetRGB.replace('rgb','rgba').slice(0,11))) {
+          mark(el);
+        }
+      } catch (e) {
+        // skip elements we can't read
+      }
+    });
+  }
+
+  // run on DOMContentLoaded and after a small delay (for dynamic content)
+  document.addEventListener('DOMContentLoaded', () => {
+    scanAndMark();
+    setTimeout(scanAndMark, 600); // extra pass for lazy content
+  });
+
+  // optional: mutation observer to catch dynamic changes
+  const obs = new MutationObserver(mutations => {
+    scanAndMark();
+  });
+  obs.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] });
+
+})();
+</script>
+
+<style>
+/* style applied by JS */
+.text-white-over-maroon { color: #ffffff !important; }
+</style>
+
+</body>
+</html>
