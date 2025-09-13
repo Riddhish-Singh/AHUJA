@@ -17,7 +17,7 @@
             --secondary-font: 'Jost', sans-serif;
             --black: #0a0a0a; 
             --off-black: #87252A; /* A softer black for a modern feel */
-            --white: #fdfdfd;
+            --white: #ffffff;
             --beige: #B98A3C;
             --gold: #87252A;
         }
@@ -849,6 +849,7 @@
             font-size: 14px;
             text-decoration: underline;
             text-underline-offset: 4px;
+			text-color: #ffffff;
         }
         .footer-bottom {
             max-width: 1400px;
@@ -1024,6 +1025,89 @@
 span[data-target="1950"] {
   color: #87252A;
 }
+
+.sprinkle-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.sprinkle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background-color: var(--gold); /* Use a color from your theme */
+    border-radius: 50%;
+    opacity: 0;
+    animation: fadeInOut 2s ease-in-out forwards;
+}
+
+@keyframes fadeInOut {
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+    25% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-20px);
+        opacity: 0;
+
+}
+/* mission-section sparkles (subtle, reuses theme vars) */
+.mission-sprinkle-container {
+  position: absolute;
+  inset: 0;                /* full-size over the mission container */
+  pointer-events: none;
+  overflow: visible;
+  z-index: 5;              /* ensure sparkles sit above text but below overlays if any */
+}
+
+/* individual mission sparkle dot */
+.mission-sparkle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow:
+    0 0 6px var(--gold),
+    0 0 12px rgba(185,138,60,0.25);
+  opacity: 0;
+  transform: translateY(0) scale(0.6);
+  mix-blend-mode: screen;
+  filter: blur(0.2px);
+  animation: missionSparkleAnim 1.35s cubic-bezier(.2,.9,.2,1) forwards;
+}
+
+/* optional streak variant */
+.mission-sparkle.streak {
+  width: 10px;
+  height: 2.5px;
+  border-radius: 2px;
+  transform-origin: center;
+}
+
+/* mission sparkle keyframes */
+@keyframes missionSparkleAnim {
+  0%   { opacity: 0; transform: translateY(6px) scale(0.35) rotate(0deg); }
+  20%  { opacity: 1; transform: translateY(-2px) scale(1.05); }
+  60%  { opacity: 0.8; transform: translateY(-8px) scale(0.85); }
+  100% { opacity: 0; transform: translateY(-14px) scale(0.6); }
+}
+
+/* tweak for small screens so sparkles are subtle */
+@media (max-width: 768px) {
+  .mission-sparkle { width: 3px; height: 3px; box-shadow: 0 0 4px var(--gold); }
+  .mission-sparkle.streak { width: 8px; height: 2px; }
+}
+	
 </style>
 </head>
 <body>
@@ -1177,14 +1261,21 @@ Corporate Orders Return Gift On Special Occasion</p>
             </div>
         </section>
         
-        <section class="mission-section fade-in-on-scroll">
-            <div class="mission-container">
-                <div class="mission-line fade-in-on-scroll"></div>
-                <h2 class="mission-statement slide-up-on-scroll">
-                    Every Ahuja Sons Pashmina is handwoven with precision, passion, and heritage.
-                </h2>
-            </div>
-        </section>
+<section class="mission-section fade-in-on-scroll">
+<div class="mission-container">
+    <h2>Choose Us</h2>
+    <div class="mission-line fade-in-on-scroll"></div>
+    <h2 class="mission-statement slide-up-on-scroll">
+        <b>Every Ahuja Sons Pashmina is handwoven with 
+        <span id="animated-text"></span> </b>
+    </h2>
+
+    <!-- SPARKLES: mission-specific sparkle container -->
+    <div class="mission-sprinkle-container" aria-hidden="true"></div>
+</div>
+
+</section>
+
 		<div style="text-align: center; margin-top: 50px;">
   <a href="https://www.ahujasons.com/pages/gi-certificate">
     <img src="Goverment.png.jpg" alt="GI Certificate" style="width: 450px; margin: 10px;">
@@ -1218,9 +1309,11 @@ Corporate Orders Return Gift On Special Occasion</p>
             <div class="footer-column">
                 <h4>Follow Us</h4>
                 <div class="social-links">
-                    <a href="#">Facebook</a>
-                    <a href="#">Instagram</a>
-                    <a href="#">Pinterest</a>
+                    <a href="https://www.facebook.com/ahujasonsofficial/">Facebook</a>
+                    <a href="https://www.instagram.com/ahujasonsofficial/">Instagram</a>
+                    <a href="https://www.linkedin.com/company/ahujason/">Linkedin</a>
+                    <a href="https://in.pinterest.com/er51300317/">Printerest</a>
+                    <a href="https://www.youtube.com/channel/UCl8NNDnXiFv26eiJ2JJ8aUw">YouTube</a>
                 </div>
             </div>
             </div>
@@ -1253,7 +1346,99 @@ Corporate Orders Return Gift On Special Occasion</p>
             </p>
         </div>
     </footer>
-    
+<script>
+// MISSION SECTION SPARKLES
+(function missionSparklesController() {
+  const missionSection = document.querySelector('.mission-section');
+  if (!missionSection) return;
+  const sprinkleContainer = missionSection.querySelector('.mission-sprinkle-container');
+
+  // spawn function
+  function spawnMissionSparkles(count = 18) {
+    for (let i = 0; i < count; i++) {
+      const s = document.createElement('span');
+      s.className = 'mission-sparkle';
+      // small chance for a streak
+      if (Math.random() < 0.18) s.classList.add('streak');
+
+      // position inside the mission area (give breathing space)
+      const left = 6 + Math.random() * 88;
+      const top  = 6 + Math.random() * 88;
+      s.style.left = left + '%';
+      s.style.top  = top + '%';
+
+      // randomize size + rotation
+      const size = 2 + Math.random() * 6;
+      s.style.width = (s.classList.contains('streak') ? Math.max(8, size*3) + 'px' : size + 'px');
+      s.style.height = (s.classList.contains('streak') ? Math.max(2, size*0.6) + 'px' : size + 'px');
+      if (s.classList.contains('streak')) s.style.transform = 'rotate(' + (Math.random()*60 - 30) + 'deg)';
+
+      // staggered animation delay for organic pop
+      s.style.animationDelay = (Math.random() * 0.5) + 's';
+
+      sprinkleContainer.appendChild(s);
+
+      // cleanup after animation
+      setTimeout(() => {
+        if (s && s.parentNode) s.parentNode.removeChild(s);
+      }, 1600 + (Math.random()*800));
+    }
+  }
+
+  // use IntersectionObserver to trigger when mission section enters viewport
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // spawn one warm burst
+        spawnMissionSparkles(20);
+        // subtle follow-up pulses
+        setTimeout(() => spawnMissionSparkles(10), 700);
+        setTimeout(() => spawnMissionSparkles(8), 1400);
+        // if you'd like it to re-trigger on scroll back into view, comment out the next line
+        obs.unobserve(missionSection);
+      }
+    });
+  }, { threshold: 0.35 });
+
+  obs.observe(missionSection);
+})();
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const textElement = document.getElementById('animated-text');
+        const words = ["precision.", "passion.", "heritage."];
+
+        let wordIndex = 0;
+        let charIndex = 0;
+        let isTyping = true;
+
+        function type() {
+            if (isTyping) {
+                const currentWord = words[wordIndex];
+                if (charIndex < currentWord.length) {
+                    textElement.textContent += currentWord.charAt(charIndex);
+                    charIndex++;
+                    setTimeout(type, 100); // Typing speed (100ms per character)
+                } else {
+                    isTyping = false;
+                    setTimeout(type, 1000); // 1-second delay after typing is complete
+                }
+            } else {
+                // Change to the next word
+                wordIndex++;
+                if (wordIndex >= words.length) {
+                    wordIndex = 0; // Loop back to the start
+                }
+                textElement.textContent = '';
+                textElement.style.textDecoration = 'underline';
+                charIndex = 0;
+                isTyping = true;
+                setTimeout(type, 100);
+            }
+        }
+
+        type(); // Start the animation
+    });
+</script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             
