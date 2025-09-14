@@ -844,13 +844,48 @@
         .newsletter-form button:hover {
             background-color: var(--beige);
         }
-        .social-links a {
-            margin-right: 15px;
-            font-size: 14px;
-            text-decoration: underline;
-            text-underline-offset: 4px;
-			text-color: #ffffff;
-        }
+.social-links a {
+  margin-right: 15px;
+  font-size: 20px;
+  color: #ffffff;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  transition: all 0.3s ease;
+}
+
+/* Hover styles per brand */
+.social-links a.facebook:hover {
+  background: #1877F2;  /* Facebook blue */
+  color: #fff;
+}
+
+.social-links a.instagram:hover {
+  background: linear-gradient(45deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5); /* Insta gradient */
+  color: #fff;
+}
+
+.social-links a.linkedin:hover {
+  background: #0A66C2;  /* LinkedIn blue */
+  color: #fff;
+}
+
+.social-links a.pinterest:hover {
+  background: #E60023;  /* Pinterest red */
+  color: #fff;
+}
+
+.social-links a.youtube:hover {
+  background: #FF0000;  /* YouTube red */
+  color: #fff;
+}
+
+
         .footer-bottom {
             max-width: 1400px;
             margin: 40px auto 0;
@@ -1107,7 +1142,31 @@ span[data-target="1950"] {
   .mission-sparkle { width: 3px; height: 3px; box-shadow: 0 0 4px var(--gold); }
   .mission-sparkle.streak { width: 8px; height: 2px; }
 }
-	
+	.social-links {
+  display: flex;
+  gap: 18px;
+  margin-top: 10px;
+}
+
+.social-links a {
+  font-size: 20px;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+  background: var(--gold);
+  color: var(--black);
+  transform: scale(1.1);
+}
+
 </style>
 </head>
 <body>
@@ -1131,6 +1190,7 @@ span[data-target="1950"] {
       </a>
     </div>
 
+
     <nav class="main-nav" aria-label="Main Navigation">
       <ul>
         <li><a href="#">Home</a></li>
@@ -1148,7 +1208,7 @@ span[data-target="1950"] {
         <li><a href="#">Craftsmanship</a></li>
         <li><a href="#">Bespoke</a></li>
         <li><a href="https://www.ahujasons.com/blogs/blog">Blog</a></li>
-        <li><a href="#">Contact</a></li>
+        <li><a href="https://www.ahujasons.com/pages/contact">Contact</a></li>
       </ul>
     </nav>
 
@@ -1287,16 +1347,62 @@ Corporate Orders Return Gift On Special Occasion</p>
 		<!-- AS SEEN ON SECTION -->
 <section class="as-seen-on">
   <h2 class="as-seen-on-title">As Seen On</h2>
- <marquee> <div class="logo-row">
-    <img src="https://www.ahujasons.com/cdn/shop/files/Image_305.jpg?v=1750919834&width=100" alt="Travel + Leisure">
-    <img src="https://www.ahujasons.com/cdn/shop/files/Image_306_2x_19ec82a4-e5a4-40bc-803d-659205432a93.jpg?v=1753961676&width=200" alt="Robb Report">
-    <img src="https://www.ahujasons.com/cdn/shop/files/MaskGroup12_2x-a0277a08-c697-476e-a4f5-724b1e4049bc_2x_df6bafd9-80cb-41e8-bc2a-18946433945d.jpg?v=1753961653&width=200" alt="Vogue">
-    <img src="https://www.ahujasons.com/cdn/shop/files/Image_307.jpg?v=1750920601&width=100" alt="GQ">
-    <img src="https://www.ahujasons.com/cdn/shop/files/Image_308.jpg?v=1750920622&width=100" alt="LBB">
-    <img src="https://www.ahujasons.com/cdn/shop/files/Businessworld__logo_2x_9c2f314e-b8cd-490b-87fb-088ed970bcca.jpg?v=1750920640&width=200" alt="BW Businessworld">
-    <img src="https://www.ahujasons.com/cdn/shop/files/Image_309_2x_43a9381f-5ee9-4aeb-9599-68278b2d114b.jpg?v=1753961523&width=200" alt="Fashion United">
-  </div> </marquee>
+  <div class="marquee">
+    <div class="marquee-content">
+      <img src="https://www.ahujasons.com/cdn/shop/files/Image_305.jpg?v=1750919834&width=100" alt="Travel + Leisure">
+      <img src="https://www.ahujasons.com/cdn/shop/files/Image_306_2x.jpg?v=1750919834&width=100" alt="Vogue">
+      <img src="https://www.ahujasons.com/cdn/shop/files/Image_307.jpg?v=1750919834&width=100" alt="Elle">
+      <img src="https://www.ahujasons.com/cdn/shop/files/Image_308.jpg?v=1750919834&width=100" alt="GQ">
+      <!-- repeat once more for seamless loop -->
+      <img src="https://www.ahujasons.com/cdn/shop/files/Image_305.jpg?v=1750919834&width=100" alt="Travel + Leisure">
+      <img src="https://www.ahujasons.com/cdn/shop/files/Image_306_2x.jpg?v=1750919834&width=100" alt="Vogue">
+      <img src="https://www.ahujasons.com/cdn/shop/files/Image_307.jpg?v=1750919834&width=100" alt="Elle">
+      <img src="https://www.ahujasons.com/cdn/shop/files/Image_308.jpg?v=1750919834&width=100" alt="GQ">
+    </div>
+  </div>
 </section>
+
+<style>
+.as-seen-on {
+  padding: 60px 20px;
+  background-color: #fff;
+  text-align: center;
+}
+
+.as-seen-on-title {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  font-family: var(--primary-font);
+  color: var(--black);
+}
+
+.marquee {
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.marquee-content {
+  display: inline-block;
+  white-space: nowrap;
+  animation: scroll 25s linear infinite;
+}
+
+.marquee-content img {
+  height: 80px;
+  margin: 0 40px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+</style>
+
 
     </main>
 
@@ -1306,16 +1412,28 @@ Corporate Orders Return Gift On Special Occasion</p>
                 <div class="footer-logo">
                     <img src="https://www.ahujasons.com/cdn/shop/files/Group_85145.svg?v=1750926316&width=200" alt="Ahuja Sons Logo">
                 </div>
-            <div class="footer-column">
-                <h4>Follow Us</h4>
-                <div class="social-links">
-                    <a href="https://www.facebook.com/ahujasonsofficial/">Facebook</a>
-                    <a href="https://www.instagram.com/ahujasonsofficial/">Instagram</a>
-                    <a href="https://www.linkedin.com/company/ahujason/">Linkedin</a>
-                    <a href="https://in.pinterest.com/er51300317/">Printerest</a>
-                    <a href="https://www.youtube.com/channel/UCl8NNDnXiFv26eiJ2JJ8aUw">YouTube</a>
-                </div>
-            </div>
+<div class="footer-column">
+  <h4>Follow Us</h4>
+  <div class="social-links">
+    <a href="https://www.facebook.com/ahujasonsofficial/" target="_blank" aria-label="Facebook" class="facebook">
+      <i class="fab fa-facebook-f"></i>
+    </a>
+    <a href="https://www.instagram.com/ahujasonsofficial/" target="_blank" aria-label="Instagram" class="instagram">
+      <i class="fab fa-instagram"></i>
+    </a>
+    <a href="linkedin.com/company/ahujason/" target="_blank" aria-label="LinkedIn" class="linkedin">
+      <i class="fab fa-linkedin-in"></i>
+    </a>
+    <a href="https://in.pinterest.com/er51300317/" target="_blank" aria-label="Pinterest" class="pinterest">
+      <i class="fab fa-pinterest-p"></i>
+    </a>
+    <a href="https://www.youtube.com/channel/UCl8NNDnXiFv26eiJ2JJ8aUw" target="_blank" aria-label="YouTube" class="youtube">
+      <i class="fab fa-youtube"></i>
+    </a>
+  </div>
+</div>
+
+
             </div>
             <div class="footer-column">
                 <h4>Quick Links</h4>
@@ -1331,19 +1449,15 @@ Corporate Orders Return Gift On Special Occasion</p>
             <div class="footer-column">
                 <h4>Contact & Info</h4>
                 <ul>
-                    <li>Address: 123 Luxury Lane, Kashmir, India</li>
-                    <li>Email: info@ahujasons.com</li>
-                    <li>Phone: ✆ +91-9205148883 ✆ +91-9205138883</li>
+                    <li>Address: A-81, Udhyog Marg, A Block, Sector 2, Noida, Uttar Pradesh 201301</li>
+                    <li>Email: support@ahujasons.com</li>
+                    <li>Phone: +91-9818828883</li>
                     <li><a href="https://www.google.com/maps/search/ahujasons+shawl+wale+locations/@28.588466,74.3878676,7z?entry=ttu&g_ep=EgoyMDI1MDkxMC4wIKXMDSoASAFQAw%3D%3D">Store Locator</a></li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
             <p>© 2025 by AHUJASONS SHAWL WALE PVT. LTD</p>
-            <p>
-                <a href="#">Privacy Policy</a> | 
-                <a href="#">Terms of Use</a>
-            </p>
         </div>
     </footer>
 <script>
